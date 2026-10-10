@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/orders.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="order-page">
+  <h2><i></i>{{ t.o_done_title }}</h2>
+  <p class="lead">{{ t.o_done_text }}</p>
+  <div class="code-box">{{ code }}</div>
+  <a class="btn" href="{% url 'home' %}">{{ t.o_done_back }}</a>
+</section>
+{% endblock %}

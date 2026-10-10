@@ -1,0 +1,33 @@
+<div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
+
+<section id="work">
+  <h2><i></i>{{ t.w_title }}</h2>
+  <p class="lead">{{ t.w_sub }}</p>
+
+  {% if items %}
+  <div class="grid">
+    {% for it in items %}
+    <article class="card accent-{{ it.p.accent }}">
+      <div class="shot">
+        {% if it.p.image %}
+          <img src="{{ it.p.image.url }}" alt="{{ it.p.title }}" loading="lazy">
+        {% else %}
+          <div class="mock"><span></span><span></span><span></span><span></span><span></span></div>
+        {% endif %}
+      </div>
+      <h3>{{ it.p.title }}</h3>
+      <p>{{ it.desc }}</p>
+      <div class="tags">
+        {% for tag in it.tags %}<em>{{ tag }}</em>{% endfor %}
+      </div>
+      <div class="links">
+        {% if it.p.demo_url %}<a class="go" href="{{ it.p.demo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_demo }}</a>{% endif %}
+        {% if it.p.repo_url %}<a class="go" href="{{ it.p.repo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_repo }}</a>{% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="lead">{{ t.w_empty }}</p>
+  {% endif %}
+</section>

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% load portfolio_tags plans_tags orders_tags %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/hero.css' %}">
+<link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
+<link rel="stylesheet" href="{% static 'css/plans.css' %}">
+<link rel="stylesheet" href="{% static 'css/orders.css' %}">
+{% endblock %}
+
+{% block hero %}
+<header id="hero">
+  <canvas id="sky" aria-hidden="true"></canvas>
+
+  <div class="hero-in">
+    <div class="badge">
+      <svg class="rings" viewBox="0 0 200 200" aria-hidden="true">
+        <circle class="ring-outer" cx="100" cy="100" r="98"/>
+        <circle class="ring-inner" cx="100" cy="100" r="62"/>
+        <g class="ring-arcs">
+          <path d="M30 62 A78 78 0 0 1 56 36"/>
+          <path d="M144 36 A78 78 0 0 1 170 62"/>
+          <path d="M30 138 A78 78 0 0 0 56 164"/>
+          <path d="M144 164 A78 78 0 0 0 170 138"/>
+        </g>
+      </svg>
+
+      <svg class="num" viewBox="0 0 256 164" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="141">
+        <g stroke="#00e676" stroke-width="13">
+          <path d="M14 52 L46 22 V140"/>
+          <path d="M176 52 L208 22 V140"/>
+        </g>
+        <g stroke="#00d4ff" stroke-width="13">
+          <path d="M128 24 V142 M128 24 L88 92 H164"/>
+        </g>
+        <g stroke="#fff" stroke-width="4">
+          <path d="M14 52 L46 22 V140"/>
+          <path d="M176 52 L208 22 V140"/>
+          <path d="M128 24 V142 M128 24 L88 92 H164"/>
+        </g>
+      </svg>
+    </div>
+
+    <h1>{{ t.h1_a }} <span>{{ t.h1_b }}</span></h1>
+    <p class="sub">{{ t.sub }}</p>
+    <a class="btn" href="#plans">{{ t.cta_plans }}</a>
+    <a class="btn c" href="#work">{{ t.cta_work }}</a>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+{% portfolio_section %}
+{% plans_section %}
+{% order_section %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/hero.js' %}" defer></script>
+{% endblock %}

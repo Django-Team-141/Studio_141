@@ -1,0 +1,13 @@
+.venv/
+db.sqlite3
+__pycache__/
+.idea/
+media/
+staticfiles/
+.env
+.env.*
+!.env.example
+!.env.prod.example
+*.pem
+*.key
+*.sql

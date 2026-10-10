@@ -1,0 +1,43 @@
+#sky {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+}
+
+.hero-in { pointer-events: none; }
+.hero-in a { pointer-events: auto; }
+
+.badge {
+  position: relative; width: min(62vw, 330px); aspect-ratio: 1;
+  margin: 0 auto 18px; display: grid; place-items: center;
+}
+.badge .rings {
+  position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible;
+}
+
+.ring-outer {
+  fill: none; stroke: #00d4ff; stroke-width: 1.6;
+  filter: drop-shadow(0 0 5px #00d4ff);
+}
+.ring-inner {
+  fill: none; stroke: #00d4ff; stroke-width: .7; opacity: .8;
+}
+.ring-arcs {
+  fill: none; stroke: #00e676; stroke-width: 1.4;
+  filter: drop-shadow(0 0 4px #00e676);
+  transform-origin: 50% 50%;
+  animation: ring-spin 60s linear infinite;
+}
+@keyframes ring-spin { to { transform: rotate(360deg); } }
+
+.num {
+  width: 62%;
+  filter: drop-shadow(0 0 10px #00e67699) drop-shadow(0 0 22px #00d4ff66);
+  animation: neon-flicker 1.4s .2s both;
+}
+@keyframes neon-flicker {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }
+  12%  { opacity: .2; }
+  20%  { opacity: 1; }
+  26%  { opacity: .4; }
+  34%, 100% { opacity: 1; }
+}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/orders.css' %}">
+{% endblock %}
+
+{% block content %}
+<section id="order" class="order-page">
+  <h2><i></i>{{ t.o_title }}</h2>
+  {% if throttled %}
+    <p class="lead">{{ t.o_throttle }}</p>
+    <a class="btn c" href="{% url 'home' %}">{{ t.o_done_back }}</a>
+  {% else %}
+    <p class="lead">{{ t.o_sub }}</p>
+    {% include "orders/_form.html" %}
+  {% endif %}
+</section>
+{% endblock %}

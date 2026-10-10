@@ -1,0 +1,30 @@
+{% load static %}<!DOCTYPE html>
+<html lang="{{ lang }}" dir="{{ dir }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% block title %}141 · One for One{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Vazirmatn:wght@300;500;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="lang-{{ lang }}">
+  <nav>
+    <a class="brand" href="{% url 'home' %}">141</a>
+    <a class="l" href="{% url 'home' %}#work">{{ t.nav_work }}</a>
+    <a class="l" href="{% url 'home' %}#plans">{{ t.nav_plans }}</a>
+    <a class="l" href="{% url 'home' %}#order">{{ t.nav_order }}</a>
+    <a id="lang" href="{% url 'set_language' other_lang %}">{{ t.lang_btn }}</a>
+  </nav>
+
+  {% block hero %}{% endblock %}
+  {% block content %}{% endblock %}
+
+  <footer>
+    <div class="t">ONE FOR ONE</div>
+    <div>{{ t.footer }}</div>
+    <div class="fl"><a href="{% url 'privacy' %}">{{ t.privacy }}</a></div>
+  </footer>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

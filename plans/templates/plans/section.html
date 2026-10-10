@@ -1,0 +1,36 @@
+<div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
+
+<section id="plans">
+  <h2><i></i>{{ t.pl_title }}</h2>
+  <p class="lead">{{ t.pl_sub }}</p>
+
+  {% if has_plans %}
+  <div class="plans">
+    <input type="radio" name="ptab" id="tab-info" checked>
+    <input type="radio" name="ptab" id="tab-shop">
+
+    <div class="tabs">
+      <label for="tab-info">{{ t.pl_tab_info }}</label>
+      <label for="tab-shop">{{ t.pl_tab_shop }}</label>
+    </div>
+
+    {% for kind, items in groups.items %}
+    <div class="grid panel-{{ kind }}">
+      {% for it in items %}
+      <article class="card plan{% if it.p.is_featured %} hot{% endif %}">
+        <h3>{{ it.title }}</h3>
+        <div class="price">{{ it.price }}</div>
+        <ul>
+          {% for f in it.features %}<li>{{ f }}</li>{% endfor %}
+        </ul>
+        <a class="btn{% if not it.p.is_featured %} c{% endif %}" href="?plan={{ it.p.id }}#order">{{ t.pl_pick }}</a>
+      </article>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  <p class="note">{{ t.pl_note }}</p>
+  {% else %}
+  <p class="lead">{{ t.pl_empty }}</p>
+  {% endif %}
+</section>

@@ -1,0 +1,39 @@
+<form method="post" action="{% url 'orders:submit' %}" class="order-form">
+  {% csrf_token %}
+  <div class="hp" aria-hidden="true">{{ form.website }}</div>
+
+  <label>
+    <span>{{ t.f_name }}</span>
+    {{ form.name }}
+    {% for e in form.name.errors %}<span class="err">{{ e }}</span>{% endfor %}
+  </label>
+
+  <label>
+    <span>{{ t.f_phone }}</span>
+    {{ form.phone }}
+    {% for e in form.phone.errors %}<span class="err">{{ e }}</span>{% endfor %}
+  </label>
+
+  <label>
+    <span>{{ t.f_email }}</span>
+    {{ form.email }}
+    {% for e in form.email.errors %}<span class="err">{{ e }}</span>{% endfor %}
+  </label>
+
+  <label>
+    <span>{{ t.f_plan }}</span>
+    {{ form.plan }}
+    {% for e in form.plan.errors %}<span class="err">{{ e }}</span>{% endfor %}
+  </label>
+
+  <label class="f">
+    <span>{{ t.f_msg }}</span>
+    {{ form.message }}
+    {% for e in form.message.errors %}<span class="err">{{ e }}</span>{% endfor %}
+  </label>
+
+  <div class="f">
+    <button class="btn" type="submit">{{ t.o_send }}</button>
+    <p class="pnote">{{ t.o_privacy_note }} <a href="{% url 'privacy' %}">{{ t.privacy }}</a></p>
+  </div>
+</form>
