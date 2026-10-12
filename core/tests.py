@@ -1,5 +1,8 @@
 import io
+import tempfile
 from contextlib import redirect_stdout
+from pathlib import Path
+from unittest.mock import patch
 
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
@@ -209,18 +212,46 @@ class AdminTwoFactorTests(TestCase):
 class Setup2faCommandTests(TestCase):
     def setUp(self):
         self.staff = User.objects.create_user("alice", password=PASSWORD, is_staff=True)
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.dir = Path(self.tmp.name)
 
     def _run(self, *args):
         out = io.StringIO()
-        # QR داخل ترمینال چاپ می‌شود؛ اینجا خروجی‌اش را می‌گیریم تا صفحه‌ی تست شلوغ نشود
-        with redirect_stdout(io.StringIO()):
-            call_command("setup_2fa", *args, stdout=out)
+        # فایل‌ها داخل پوشه‌ی موقت می‌روند، نه پوشه‌ی پروژه.
+        # QR در حالت ترمینال روی sys.stdout چاپ می‌شود؛ اینجا خروجی‌اش را می‌گیریم.
+        with self.settings(TWO_FA_OUTPUT_DIR=self.dir), redirect_stdout(io.StringIO()):
+            call_command("setup_2fa", *args, "--no-open", stdout=out)
         return out.getvalue()
 
-    def test_creates_an_authenticator_and_eight_recovery_codes(self):
-        self._run("alice")
+    def _tokens(self):
+        return list(
+            StaticToken.objects.filter(device__user=self.staff).values_list("token", flat=True)
+        )
+
+    def test_default_mode_saves_a_qr_image_and_a_recovery_file(self):
+        out = self._run("alice")
+
         self.assertEqual(TOTPDevice.objects.filter(user=self.staff, confirmed=True).count(), 1)
-        self.assertEqual(StaticToken.objects.filter(device__user=self.staff).count(), 8)
+        tokens = self._tokens()
+        self.assertEqual(len(tokens), 8)
+
+        png = self.dir / "alice-qr.png"
+        txt = self.dir / "alice-recovery-codes.txt"
+        self.assertEqual(png.read_bytes()[:4], b"\x89PNG")
+        text = txt.read_text(encoding="utf-8-sig")
+        for token in tokens:
+            self.assertIn(token, text)
+            # در ترمینال هیچ کدی چاپ نمی‌شود
+            self.assertNotIn(token, out)
+
+    def test_terminal_mode_prints_the_codes_and_saves_no_files(self):
+        out = self._run("alice", "--terminal")
+        tokens = self._tokens()
+        self.assertEqual(len(tokens), 8)
+        for token in tokens:
+            self.assertIn(token, out)
+        self.assertEqual(list(self.dir.iterdir()), [])
 
     def test_second_run_needs_reset(self):
         self._run("alice")
@@ -228,8 +259,16 @@ class Setup2faCommandTests(TestCase):
             self._run("alice")
         self._run("alice", "--reset")
         self.assertEqual(TOTPDevice.objects.filter(user=self.staff).count(), 1)
+        self.assertEqual(len(self._tokens()), 8)
 
     def test_non_staff_user_is_refused(self):
         User.objects.create_user("bob", password=PASSWORD)
         with self.assertRaises(CommandError):
             self._run("bob")
+
+    def test_if_files_cannot_be_written_nothing_changes(self):
+        with patch("core.management.commands.setup_2fa.segno.make", side_effect=OSError("disk full")):
+            with self.assertRaises(CommandError):
+                self._run("alice")
+        self.assertEqual(TOTPDevice.objects.filter(user=self.staff).count(), 0)
+        self.assertEqual(self._tokens(), [])

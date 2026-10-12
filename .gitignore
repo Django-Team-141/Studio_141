@@ -4,6 +4,7 @@ __pycache__/
 .idea/
 media/
 staticfiles/
+2fa_codes/
 .env
 .env.*
 !.env.example
