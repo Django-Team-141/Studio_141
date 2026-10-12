@@ -1,0 +1,26 @@
+<div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
+
+<section id="about">
+  <h2 class="reveal"><i></i>{{ t.ab_title }}</h2>
+  <p class="lead reveal">{{ t.ab_text }}</p>
+
+  {% if members %}
+  <div class="team">
+    {% for it in members %}
+    <article class="card team-card reveal">
+      <div class="avatar">
+        {% if it.m.photo %}
+          <img src="{{ it.m.photo.url }}" alt="{{ it.m.name }}" loading="lazy">
+        {% else %}
+          <span>{{ it.initial }}</span>
+        {% endif %}
+      </div>
+      <h3>
+        {% if it.m.link %}<a href="{{ it.m.link }}" target="_blank" rel="noopener noreferrer">{{ it.m.name }}</a>{% else %}{{ it.m.name }}{% endif %}
+      </h3>
+      <p>{{ it.role }}</p>
+    </article>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>

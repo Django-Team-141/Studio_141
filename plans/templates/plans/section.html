@@ -1,8 +1,8 @@
 <div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
 
 <section id="plans">
-  <h2><i></i>{{ t.pl_title }}</h2>
-  <p class="lead">{{ t.pl_sub }}</p>
+  <h2 class="reveal"><i></i>{{ t.pl_title }}</h2>
+  <p class="lead reveal">{{ t.pl_sub }}</p>
 
   {% if has_plans %}
   <div class="plans">
@@ -14,18 +14,52 @@
       <label for="tab-shop">{{ t.pl_tab_shop }}</label>
     </div>
 
-    {% for kind, items in groups.items %}
-    <div class="grid panel-{{ kind }}">
-      {% for it in items %}
-      <article class="card plan{% if it.p.is_featured %} hot{% endif %}">
-        <h3>{{ it.title }}</h3>
-        <div class="price">{{ it.price }}</div>
-        <ul>
-          {% for f in it.features %}<li>{{ f }}</li>{% endfor %}
-        </ul>
-        <a class="btn{% if not it.p.is_featured %} c{% endif %}" href="?plan={{ it.p.id }}#order">{{ t.pl_pick }}</a>
-      </article>
-      {% endfor %}
+    {% for kind, g in groups.items %}
+    <div class="panel-{{ kind }}">
+      <div class="grid">
+        {% for it in g.cards %}
+        <article class="card plan reveal{% if it.p.is_featured %} hot{% endif %}">
+          <h3>{{ it.title }}</h3>
+          <div class="price">{{ it.price }}</div>
+          <ul>
+            {% for f in it.features %}<li>{{ f }}</li>{% endfor %}
+          </ul>
+          <a class="btn{% if not it.p.is_featured %} c{% endif %}" href="?plan={{ it.p.id }}#order">{{ t.pl_pick }}</a>
+        </article>
+        {% endfor %}
+      </div>
+
+      {% if g.rows %}
+      <h3 class="cmp-title reveal">{{ t.cmp_title }}</h3>
+      <div class="cmp-wrap reveal">
+        <table class="cmp">
+          <thead>
+            <tr>
+              <th scope="col">{{ t.cmp_feature }}</th>
+              {% for it in g.cards %}<th scope="col">{{ it.title }}</th>{% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="price">
+              <th scope="row">{{ t.cmp_price }}</th>
+              {% for it in g.cards %}<td>{{ it.price }}</td>{% endfor %}
+            </tr>
+            {% for r in g.rows %}
+            <tr>
+              <th scope="row">{{ r.text }}</th>
+              {% for c in r.cells %}
+              <td class="{% if c %}yes{% else %}no{% endif %}">
+                <span aria-hidden="true">{% if c %}✓{% else %}—{% endif %}</span>
+                <span class="sr">{% if c %}{{ t.cmp_yes }}{% else %}{{ t.cmp_no }}{% endif %}</span>
+              </td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if g.cumulative %}<p class="note">{{ t.cmp_note }}</p>{% endif %}
+      {% endif %}
     </div>
     {% endfor %}
   </div>

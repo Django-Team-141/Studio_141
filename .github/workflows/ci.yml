@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: Tests and checks
+    runs-on: ubuntu-latest
+    env:
+      DJANGO_SETTINGS_MODULE: config.settings.test
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install packages
+        run: pip install -r requirements.txt
+
+      - name: Django system check
+        run: python manage.py check
+
+      - name: Any model change without a migration?
+        run: python manage.py makemigrations --check --dry-run
+
+      - name: Tests
+        run: python manage.py test
+
+      - name: Check with the server settings
+        env:
+          DJANGO_SETTINGS_MODULE: config.settings.prod
+          ALLOWED_HOSTS: example.com
+          CSRF_TRUSTED_ORIGINS: https://example.com
+          ADMIN_URL: ci-check-path-x7/
+          HSTS_SECONDS: "300"
+        run: |
+          export SECRET_KEY="$(python -c 'import secrets; print(secrets.token_urlsafe(60))')"
+          export DATABASE_URL="postgres://ci:$(python -c 'import secrets; print(secrets.token_hex(8))')@localhost:5432/ci"
+          python manage.py check --deploy --fail-level WARNING
+
+  security:
+    name: Secrets and vulnerable packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0   # تاریخچه‌ی کامل، تا رمزهای پاک‌شده‌ی قدیمی هم دیده شوند
+
+      - name: Look for leaked secrets (gitleaks)
+        run: |
+          docker run --rm --user "$(id -u):$(id -g)" -e HOME=/tmp \
+            -v "$GITHUB_WORKSPACE:/repo" \
+            ghcr.io/gitleaks/gitleaks:latest git --redact -v /repo
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Check packages for known vulnerabilities (pip-audit)
+        run: |
+          pip install pip-audit
+          pip-audit -r requirements.txt

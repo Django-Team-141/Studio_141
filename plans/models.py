@@ -18,6 +18,10 @@ class Plan(models.Model):
     title_en = models.CharField(max_length=60)
     price_fa = models.CharField(max_length=40, help_text="e.g. از ۱۵ میلیون تومان")
     price_en = models.CharField(max_length=40, help_text="e.g. from $400")
+    includes_lower = models.BooleanField(
+        default=True,
+        help_text="This plan also has everything the lower plan has. Used by the comparison table.",
+    )
     is_featured = models.BooleanField(default=False, help_text="Highlights the card (usually the Smart plan).")
     is_published = models.BooleanField(default=True)
 

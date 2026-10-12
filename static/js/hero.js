@@ -35,7 +35,8 @@
     }
   }
 
-  function frame(t) {
+  // یک فریم را می‌کشد
+  function draw(t) {
     cx.clearRect(0, 0, W, H);
 
     var px = mouse.on ? mouse.x / W - 0.5 : 0;
@@ -96,9 +97,43 @@
         }
       }
     }
-
-    if (!still) requestAnimationFrame(frame);
   }
+
+  // --- شروع و توقف انیمیشن ---
+  var running = false;
+  var rafId = 0;
+  var heroVisible = true;
+  var tabVisible = !document.hidden;
+
+  function loop(t) {
+    draw(t);
+    if (running) rafId = requestAnimationFrame(loop);
+  }
+  function start() {
+    if (still || running) return;
+    running = true;
+    rafId = requestAnimationFrame(loop);
+  }
+  function stop() {
+    running = false;
+    cancelAnimationFrame(rafId);
+  }
+  function sync() {
+    if (heroVisible && tabVisible) start();
+    else stop();
+  }
+
+  // وقتی هدر از صفحه خارج شد یا تب پنهان شد، انیمیشن می‌ایستد (باتری و CPU)
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      heroVisible = entries[entries.length - 1].isIntersecting;
+      sync();
+    }).observe(hero);
+  }
+  document.addEventListener("visibilitychange", function () {
+    tabVisible = !document.hidden;
+    sync();
+  });
 
   hero.addEventListener("pointermove", function (e) {
     var r = cv.getBoundingClientRect();
@@ -116,15 +151,15 @@
     if (hero.clientWidth !== lastW) {
       lastW = hero.clientWidth;
       build();
-      if (still) frame(0);
+      if (still) draw(0);
     }
   });
 
   lastW = hero.clientWidth;
   build();
   if (still) {
-    frame(0);
+    draw(0);
   } else {
-    requestAnimationFrame(frame);
+    start();
   }
 })();

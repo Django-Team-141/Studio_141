@@ -1,0 +1,17 @@
+{% if items %}
+<div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
+
+<section id="faq">
+  <h2 class="reveal"><i></i>{{ t.fq_title }}</h2>
+  <p class="lead reveal">{{ t.fq_sub }}</p>
+
+  <div class="faq">
+    {% for it in items %}
+    <details class="faq-item reveal">
+      <summary>{{ it.q }}</summary>
+      <p>{{ it.a }}</p>
+    </details>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

@@ -1,10 +1,11 @@
 from django.conf import settings
 
+# فونت‌ها از خود سایت می‌آیند، پس به Google Fonts دیگر اجازه‌ای نمی‌دهیم
 CSP = (
     "default-src 'self'; "
     "script-src 'self'; "
-    "style-src 'self' https://fonts.googleapis.com; "
-    "font-src https://fonts.gstatic.com; "
+    "style-src 'self'; "
+    "font-src 'self'; "
     "img-src 'self' data:; "
     "connect-src 'self'; "
     "base-uri 'self'; "
@@ -19,8 +20,10 @@ class SecurityHeadersMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        # پنل ادمین جنگو قالب‌های خودش را دارد، پس CSP را فقط برای صفحه‌های سایت می‌گذاریم
-        if not request.path.startswith("/" + settings.ADMIN_URL):
+        if request.path.startswith("/" + settings.ADMIN_URL):
+            # پنل ادمین قالب‌های خودش را دارد، پس CSP برایش نمی‌گذاریم؛ ولی در گوگل هم نباید بیاید
+            response.headers.setdefault("X-Robots-Tag", "noindex, nofollow")
+        else:
             response.headers.setdefault("Content-Security-Policy", CSP)
         response.headers.setdefault(
             "Permissions-Policy", "camera=(), microphone=(), geolocation=()"

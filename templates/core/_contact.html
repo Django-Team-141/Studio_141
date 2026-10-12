@@ -1,0 +1,15 @@
+{% if contact %}
+<div class="contact" role="group" aria-label="{{ t.contact_label }}">
+  {% for c in contact %}
+  <a class="cbtn cbtn-{{ c.key }}" href="{{ c.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ c.label }}" title="{{ c.label }}">
+    {% if c.key == "telegram" %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 4 3 11l6 2.2 2.3 6.3 3.2-4.3 5.3 3.8z"/><path d="M9 13.2 21.5 4"/></svg>
+    {% elif c.key == "whatsapp" %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21l1.6-4.7A9 9 0 1 1 8 19.6z"/><path d="M9 9.5c.3 2 2.5 4.2 4.5 4.5l1.2-1.2-1.7-1-.8.6c-.9-.3-1.7-1.1-2-2l.6-.8-1-1.7z"/></svg>
+    {% else %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6"/></svg>
+    {% endif %}
+  </a>
+  {% endfor %}
+</div>
+{% endif %}

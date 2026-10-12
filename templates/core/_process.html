@@ -1,0 +1,16 @@
+<div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
+
+<section id="process">
+  <h2 class="reveal"><i></i>{{ t.pr_title }}</h2>
+  <p class="lead reveal">{{ t.pr_sub }}</p>
+
+  <ol class="steps">
+    {% for s in t.process_steps %}
+    <li class="reveal">
+      <span class="sn">{{ forloop.counter|stringformat:"02d" }}</span>
+      <h3>{{ s.t }}</h3>
+      <p>{{ s.d }}</p>
+    </li>
+    {% endfor %}
+  </ol>
+</section>

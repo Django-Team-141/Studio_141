@@ -19,6 +19,12 @@ def validate_image_size(f):
         raise ValidationError("Image must be smaller than 2 MB.")
 
 
+image_validators = [
+    FileExtensionValidator(["jpg", "jpeg", "png", "webp"]),
+    validate_image_size,
+]
+
+
 class Project(models.Model):
     ACCENTS = [
         ("cyan", "Cyan"),
@@ -32,16 +38,21 @@ class Project(models.Model):
     slug = models.SlugField(unique=True)
     desc_fa = models.TextField("Description (Persian)", max_length=300)
     desc_en = models.TextField("Description (English)", max_length=300)
+    details_fa = models.TextField(
+        "Details page text (Persian)", max_length=2000, blank=True,
+        help_text="Optional. Shown on the project's own page. A blank line starts a new paragraph.",
+    )
+    details_en = models.TextField(
+        "Details page text (English)", max_length=2000, blank=True,
+        help_text="Optional. Shown on the project's own page. A blank line starts a new paragraph.",
+    )
     tags = models.CharField(max_length=120, blank=True, help_text="Comma separated, e.g. Django, DRF, Docker")
     accent = models.CharField(max_length=10, choices=ACCENTS, default="cyan")
     image = models.ImageField(
         upload_to=project_image_path,
         blank=True,
-        validators=[
-            FileExtensionValidator(["jpg", "jpeg", "png", "webp"]),
-            validate_image_size,
-        ],
-        help_text="Screenshot, jpg/png/webp, up to 2 MB. Leave empty for the colored mock.",
+        validators=image_validators,
+        help_text="Cover screenshot, jpg/png/webp, up to 2 MB. Leave empty for the colored mock.",
     )
     repo_url = models.URLField(blank=True, validators=[only_web_links])
     demo_url = models.URLField(blank=True, validators=[only_web_links])
@@ -56,3 +67,17 @@ class Project(models.Model):
 
     def tag_list(self):
         return [x.strip() for x in self.tags.split(",") if x.strip()]
+
+
+class ProjectImage(models.Model):
+    """تصویرهای بیشتر برای صفحه‌ی جزئیات پروژه."""
+
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(upload_to=project_image_path, validators=image_validators)
+    order = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self):
+        return f"{self.project.title} #{self.pk}"

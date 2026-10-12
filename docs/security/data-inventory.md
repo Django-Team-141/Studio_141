@@ -10,14 +10,18 @@ What the site stores about visitors, why, and for how long.
 | message | project details they wrote | `orders_order.message` | team | same | 12 months |
 | chosen plan | to know what they asked about | `orders_order.plan` | team | same | 12 months |
 | language | to answer in the same language | `orders_order.lang` | team | same | 12 months |
-| session cookie | remembers the language, protects the form | browser cookie + `django_session` | the visitor, the app | HttpOnly, Secure in production | 30 minutes idle |
+| form security cookie (CSRF) | protects the order form | browser cookie | the visitor, the app | HttpOnly flag not needed by design, Secure in production | until the browser session ends |
+| session cookie | shows the tracking code after sending a request; admin login | browser cookie + `django_session` | the visitor, the app | HttpOnly, Secure in production | 30 minutes idle |
 | backups | restore after a failure | `backups_data` volume (encrypted files) | whoever has server access and the backup passphrase | AES-256 (openssl) | 14 days |
+
+The site language is in the URL (`/fa/`, `/en/`) and needs no cookie.
 
 Not collected: card data, national ID, address, location, analytics.
 
 ## Third parties that receive visitor data
 
-- **Google Fonts**: the visitor's browser requests the fonts directly. No form data is sent.
+- **Fonts**: served from the site itself since part 8. No third party sees the visit.
+- **Contact buttons** (Telegram, WhatsApp, Instagram): plain links. Nothing is sent to these services until the visitor clicks.
 - **Telegram** (new-order notification to the team's bot):
   - default (`TELEGRAM_FULL_DETAILS=False`): request code, plan, language, masked phone (like `0912***567`). No name, no message.
   - if `TELEGRAM_FULL_DETAILS=True`: also name, full phone, email and the first 300 characters of the message. Turning this on is a conscious choice by the owner; the privacy page says so.

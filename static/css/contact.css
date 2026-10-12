@@ -1,0 +1,26 @@
+.contact {
+  position: fixed; inset-inline-end: 16px; z-index: 9;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.cbtn {
+  width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--a); background: #050b14ee; border: 1.5px solid var(--a);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--a) 40%, transparent);
+  backdrop-filter: blur(6px);
+  transition: .25s;
+}
+.cbtn:hover {
+  background: var(--a); color: #03050f;
+  box-shadow: 0 0 26px var(--a); transform: translateY(-2px);
+}
+.cbtn svg {
+  width: 22px; height: 22px; fill: none; stroke: currentColor;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+
+.cbtn-telegram  { --a: #00d4ff; }
+.cbtn-whatsapp  { --a: #00e676; }
+.cbtn-instagram { --a: #ff4fa3; }

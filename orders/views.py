@@ -2,9 +2,9 @@ import hashlib
 
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.http import require_GET, require_http_methods
 
-from core.context_processors import site_language
+from core.i18n import current_lang
 from core.utils import client_ip
 
 from .forms import OrderForm
@@ -17,9 +17,13 @@ def _hash(value):
     return hashlib.sha256(value.encode()).hexdigest()[:24]
 
 
-@require_POST
+@require_http_methods(["GET", "POST"])
 def submit(request):
-    lang = site_language(request)["lang"]
+    # اگر کسی بعد از یک خطا صفحه را رفرش کرد یا آدرس را مستقیم باز کرد، به خود فرم برمی‌گردد
+    if request.method == "GET":
+        return redirect(reverse("home") + "#order")
+
+    lang = current_lang(request)
     ip = client_ip(request)
 
     if not allow("ord-ip:" + _hash(ip), limit=10, window=3600):

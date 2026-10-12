@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
-{% load portfolio_tags plans_tags orders_tags %}
+{% load portfolio_tags plans_tags orders_tags seo_tags content_tags %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/hero.css' %}">
 <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
 <link rel="stylesheet" href="{% static 'css/plans.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections.css' %}">
 <link rel="stylesheet" href="{% static 'css/orders.css' %}">
 {% endblock %}
+
+{% block head_extra %}{% org_jsonld %}{% endblock %}
 
 {% block hero %}
 <header id="hero">
@@ -53,6 +56,9 @@
 {% block content %}
 {% portfolio_section %}
 {% plans_section %}
+{% include "core/_process.html" %}
+{% about_section %}
+{% faq_section %}
 {% order_section %}
 {% endblock %}
 

@@ -10,7 +10,7 @@ class PlanFeatureInline(admin.TabularInline):
 
 @admin.register(Plan)
 class PlanAdmin(admin.ModelAdmin):
-    list_display = ("__str__", "level", "price_en", "is_featured", "is_published")
-    list_editable = ("is_featured", "is_published")
+    list_display = ("__str__", "level", "price_en", "includes_lower", "is_featured", "is_published")
+    list_editable = ("includes_lower", "is_featured", "is_published")
     list_filter = ("kind", "is_published")
     inlines = [PlanFeatureInline]

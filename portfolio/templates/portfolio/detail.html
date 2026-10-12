@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ p.title }} · 141{% endblock %}
+{% block meta_desc %}{{ desc }}{% endblock %}
+{% block og_title %}{{ p.title }} · 141{% endblock %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% if p.image %}{{ p.image.url }}{% elif images %}{{ images.0.image.url }}{% else %}{% static 'img/og-image.png' %}{% endif %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="proj accent-{{ p.accent }}">
+  <a class="back" href="{% url 'home' %}#work">{{ t.d_back }}</a>
+  <h1>{{ p.title }}</h1>
+  <p class="lead">{{ desc }}</p>
+
+  <div class="tags">
+    {% for tag in tags %}<em>{{ tag }}</em>{% endfor %}
+  </div>
+  <div class="links">
+    {% if p.demo_url %}<a class="btn" href="{{ p.demo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_demo }}</a>{% endif %}
+    {% if p.repo_url %}<a class="btn c" href="{{ p.repo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_repo }}</a>{% endif %}
+  </div>
+
+  {% if details %}
+  <div class="details">{{ details|linebreaks }}</div>
+  {% endif %}
+
+  <div class="gallery">
+    {% if p.image %}
+      <img src="{{ p.image.url }}" alt="{{ p.title }}" loading="lazy">
+    {% endif %}
+    {% for im in images %}
+      <img src="{{ im.image.url }}" alt="{{ p.title }}" loading="lazy">
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

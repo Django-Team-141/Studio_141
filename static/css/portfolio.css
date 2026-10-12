@@ -11,7 +11,7 @@
 }
 
 .shot {
-  height: 150px; border-radius: 12px; border: 1px solid var(--ln);
+  display: block; height: 150px; border-radius: 12px; border: 1px solid var(--ln);
   margin-bottom: 16px; position: relative; overflow: hidden; background: #050b14;
 }
 .shot::before {
@@ -32,11 +32,33 @@
 .mock span { border-radius: 6px; background: var(--a, #00d4ff); opacity: .28; }
 .mock span:first-child { grid-row: span 2; opacity: .55; box-shadow: 0 0 22px var(--a, #00d4ff); }
 
+.card h3 a:hover { color: var(--a, var(--cy)); }
+
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 14px; }
 .tags em {
   font: normal 11.5px 'JetBrains Mono', monospace; border: 1px solid var(--ln);
   border-radius: 99px; padding: 1px 10px; color: var(--cy);
 }
-.links { display: flex; gap: 18px; }
+.links { display: flex; flex-wrap: wrap; gap: 18px; }
 .links .go { color: var(--gr); font-size: 14px; }
 .links .go:hover { text-shadow: 0 0 10px var(--gr); }
+
+/* ---------- صفحه‌ی جزئیات پروژه ---------- */
+.proj { padding-top: 120px; }
+.proj h1 { font-size: clamp(28px, 4vw, 44px); margin: 18px 0 8px; }
+.proj .lead { margin-bottom: 18px; }
+.proj .links { margin: 4px 0 30px; }
+.proj .links .btn { margin: 0; }
+.back { color: var(--mu); font-size: 14px; }
+.back:hover { color: var(--a, var(--cy)); }
+html[dir="rtl"] .back::before { content: "→ "; }
+html[dir="ltr"] .back::before { content: "← "; }
+
+.details { max-width: 720px; margin-bottom: 36px; }
+.details p { color: var(--mu); margin: 0 0 16px; }
+
+.gallery { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.gallery img {
+  width: 100%; border-radius: 14px; border: 1px solid var(--ln);
+  box-shadow: 0 0 26px color-mix(in srgb, var(--a, #00d4ff) 14%, transparent);
+}

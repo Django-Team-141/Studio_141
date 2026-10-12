@@ -39,3 +39,22 @@
 .plan .btn { display: block; width: 100%; text-align: center; margin: 0; }
 
 .note { color: var(--mu); font-size: 13px; margin-top: 20px; }
+
+/* ---------- جدول مقایسه ---------- */
+.cmp-title { margin: 44px 0 14px; font-size: 20px; }
+.cmp-wrap {
+  overflow-x: auto; border: 1px solid var(--ln); border-radius: 16px;
+  background: linear-gradient(160deg, #091624, #050b14);
+}
+.cmp { width: 100%; min-width: 520px; border-collapse: collapse; font-size: 14.5px; }
+.cmp th, .cmp td { padding: 12px 16px; border-top: 1px dashed var(--ln); text-align: center; }
+.cmp thead th { border-top: 0; color: var(--cy); font-weight: 800; }
+.cmp thead th:first-child, .cmp tbody th { text-align: start; }
+.cmp tbody th { font-weight: 300; color: var(--tx); }
+.cmp .price td { font: 700 15px 'JetBrains Mono', Vazirmatn, monospace; color: var(--cy); }
+.cmp td.yes { color: var(--gr); text-shadow: 0 0 10px var(--gr); font-weight: 700; }
+.cmp td.no { color: #2c4452; }
+.sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}

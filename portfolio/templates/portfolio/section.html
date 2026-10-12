@@ -1,26 +1,27 @@
 <div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
 
 <section id="work">
-  <h2><i></i>{{ t.w_title }}</h2>
-  <p class="lead">{{ t.w_sub }}</p>
+  <h2 class="reveal"><i></i>{{ t.w_title }}</h2>
+  <p class="lead reveal">{{ t.w_sub }}</p>
 
   {% if items %}
   <div class="grid">
     {% for it in items %}
-    <article class="card accent-{{ it.p.accent }}">
-      <div class="shot">
+    <article class="card reveal accent-{{ it.p.accent }}">
+      <a class="shot" href="{% url 'portfolio:detail' it.p.slug %}" aria-label="{{ it.p.title }}">
         {% if it.p.image %}
           <img src="{{ it.p.image.url }}" alt="{{ it.p.title }}" loading="lazy">
         {% else %}
           <div class="mock"><span></span><span></span><span></span><span></span><span></span></div>
         {% endif %}
-      </div>
-      <h3>{{ it.p.title }}</h3>
+      </a>
+      <h3><a href="{% url 'portfolio:detail' it.p.slug %}">{{ it.p.title }}</a></h3>
       <p>{{ it.desc }}</p>
       <div class="tags">
         {% for tag in it.tags %}<em>{{ tag }}</em>{% endfor %}
       </div>
       <div class="links">
+        <a class="go" href="{% url 'portfolio:detail' it.p.slug %}">{{ t.w_more }}</a>
         {% if it.p.demo_url %}<a class="go" href="{{ it.p.demo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_demo }}</a>{% endif %}
         {% if it.p.repo_url %}<a class="go" href="{{ it.p.repo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_repo }}</a>{% endif %}
       </div>
