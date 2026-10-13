@@ -23,7 +23,11 @@ def org_jsonld(context):
         "image": request.build_absolute_uri(static("img/og-image.png")),
         "availableLanguage": ["fa", "en"],
     }
-    same_as = [c["url"] for c in context.get("contact", []) if c["key"] != "whatsapp"]
+    # فقط پروفایل‌هایی که واقعاً فعال‌اند
+    same_as = [
+        c["url"] for c in context.get("contact", [])
+        if c.get("live") and c["key"] in ("telegram", "instagram")
+    ]
     if same_as:
         data["sameAs"] = same_as
     if context.get("site_email"):

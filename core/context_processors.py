@@ -1,6 +1,8 @@
 import re
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.urls import reverse, translate_url
 from django.utils import translation
 
@@ -27,20 +29,59 @@ def _pick(site, field, fallback):
     return (value or fallback or "").strip()
 
 
+def _valid_email(value):
+    try:
+        validate_email(value)
+    except ValidationError:
+        return False
+    return True
+
+
+def _email(site):
+    value = _pick(site, "email", settings.CONTACT_EMAIL)
+    return value if value and _valid_email(value) else ""
+
+
 def _contacts(t, site):
+    """
+    فهرست راه‌های تماس. تلگرام و ایمیل فقط وقتی هستند که تنظیم شده باشند.
+    واتساپ و اینستاگرام همیشه هستند؛ تا وقتی «روشن» نشده‌اند، کارتشان «به‌زودی» است.
+    """
     items = []
 
     tg = _pick(site, "telegram", settings.CONTACT_TELEGRAM).lstrip("@")
     if USERNAME.match(tg):
-        items.append({"key": "telegram", "label": t["c_telegram"], "url": "https://t.me/" + tg})
+        items.append({
+            "key": "telegram", "label": t["c_telegram"], "hint": t["ct_telegram_hint"],
+            "live": True, "url": "https://t.me/" + tg, "display": "@" + tg, "msg": "",
+        })
+
+    email = _email(site)
+    if email:
+        items.append({
+            "key": "email", "label": t["c_email"], "hint": t["ct_email_hint"],
+            "live": True, "url": "mailto:" + email, "display": email, "msg": "",
+        })
 
     wa = _pick(site, "whatsapp", settings.CONTACT_WHATSAPP).lstrip("+")
-    if NUMBER.match(wa):
-        items.append({"key": "whatsapp", "label": t["c_whatsapp"], "url": "https://wa.me/" + wa})
+    wa_live = bool(site and site.whatsapp_live) and bool(NUMBER.match(wa))
+    items.append({
+        "key": "whatsapp", "label": t["c_whatsapp"], "hint": t["ct_whatsapp_hint"],
+        "live": wa_live,
+        "url": ("https://wa.me/" + wa) if wa_live else "",
+        "display": ("+" + wa) if wa_live else "",
+        "msg": t["soon_whatsapp"],
+    })
 
     ig = _pick(site, "instagram", settings.CONTACT_INSTAGRAM).lstrip("@")
-    if USERNAME.match(ig):
-        items.append({"key": "instagram", "label": t["c_instagram"], "url": "https://instagram.com/" + ig})
+    ig_live = bool(site and site.instagram_live) and bool(USERNAME.match(ig))
+    items.append({
+        "key": "instagram", "label": t["c_instagram"], "hint": t["ct_instagram_hint"],
+        "live": ig_live,
+        "url": ("https://instagram.com/" + ig) if ig_live else "",
+        "display": ("@" + ig) if ig_live else "",
+        "msg": t["soon_instagram"],
+    })
 
     return items
 
@@ -83,5 +124,5 @@ def site_language(request):
         "canonical": alternates.get(lang, ""),
         "root_url": request.build_absolute_uri("/"),
         "contact": _contacts(t, site),
-        "site_email": (site.email if site else ""),
+        "site_email": _email(site),
     }

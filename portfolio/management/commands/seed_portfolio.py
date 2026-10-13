@@ -2,6 +2,8 @@ from django.core.management.base import BaseCommand
 
 from portfolio.models import Project
 
+# توضیح پروژه‌ی چهارم را از روی اسم مخزن و اطلاعات نسخه‌ی قبلی‌اش نوشته‌ایم.
+# بعد از اجرا، از ادمین (Projects) بخوانید و با واقعیت پروژه یکی کنید.
 STARTERS = [
     {
         "title": "Django Gaming Shop",
@@ -30,13 +32,35 @@ STARTERS = [
         "desc_en": "Car accessories shop with a catalog and product pages.",
         "repo_url": "https://github.com/Django-Team-141/carzone_OnlineShop",
     },
+    {
+        "title": "Beauty Store",
+        "slug": "beauty-store",
+        "accent": "green",
+        "tags": "Django 6, REST API, JWT",
+        "desc_fa": "بک‌اند یک فروشگاه اینترنتی زیبایی با Django. محصول‌ها، سبد خرید و کاربرها را مدیریت می‌کند و ورود از راه JWT است.",
+        "desc_en": "The backend of a beauty online shop, built with Django. It handles products, carts and users, with JWT login.",
+        "repo_url": "https://github.com/Django-Team-141/beauty-store",
+    },
 ]
 
 
 class Command(BaseCommand):
-    help = "Adds the three starter projects (skips the ones that already exist)."
+    help = (
+        "Adds the starter projects (skips the ones that already exist). "
+        "Use --remove SLUG to delete a project."
+    )
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--remove", action="append", default=[], metavar="SLUG",
+            help="slug of a project to delete (can be repeated)",
+        )
 
     def handle(self, *args, **options):
+        for slug in options["remove"]:
+            deleted, _ = Project.objects.filter(slug=slug).delete()
+            self.stdout.write(("removed: " if deleted else "not found: ") + slug)
+
         for i, data in enumerate(STARTERS):
             _, created = Project.objects.get_or_create(
                 slug=data["slug"], defaults={**data, "order": i}

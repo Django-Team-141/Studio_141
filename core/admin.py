@@ -8,8 +8,12 @@ from .models import FaqItem, SiteSettings, TeamMember
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(admin.ModelAdmin):
     fieldsets = (
-        ("Contact buttons and footer email", {
-            "fields": ("telegram", "whatsapp", "instagram", "email"),
+        ("Contact (shown in the contact section, the floating buttons and the footer)", {
+            "fields": (
+                "telegram", "email",
+                "whatsapp", "whatsapp_live",
+                "instagram", "instagram_live",
+            ),
         }),
         ("Hero text (Persian)", {"fields": ("hero_a_fa", "hero_b_fa", "hero_sub_fa")}),
         ("Hero text (English)", {"fields": ("hero_a_en", "hero_b_en", "hero_sub_en")}),

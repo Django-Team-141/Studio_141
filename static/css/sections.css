@@ -44,3 +44,29 @@
 .faq-item[open] summary::after { content: "−"; }
 .faq-item[open] { border-color: var(--cy); box-shadow: 0 0 24px #00d4ff22; }
 .faq-item p { margin: 0 0 18px; color: var(--mu); }
+
+/* ---------- تماس با ما ---------- */
+.ccards { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.ccard { display: flex; align-items: center; gap: 16px; padding: 20px 22px; transition: .25s; }
+.ccard:hover {
+  border-color: var(--a); transform: translateY(-3px);
+  box-shadow: 0 0 28px color-mix(in srgb, var(--a) 24%, transparent);
+}
+.cic {
+  width: 50px; height: 50px; flex: none; border-radius: 50%;
+  display: grid; place-items: center; color: var(--a); border: 1.5px solid var(--a);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--a) 40%, transparent);
+}
+.cic svg {
+  width: 24px; height: 24px; fill: none; stroke: currentColor;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.cbody { display: grid; gap: 2px; min-width: 0; }
+.cbody b { font-size: 17px; }
+.cval {
+  direction: ltr; unicode-bidi: isolate; text-align: start;
+  font: 400 13.5px 'JetBrains Mono', monospace; color: var(--a); overflow-wrap: anywhere;
+}
+.cbody small { color: var(--mu); font-size: 13px; }
+.ccard.is-soon { border-style: dashed; }
+.ccard.is-soon .cval { direction: inherit; font-family: inherit; color: var(--mu); }

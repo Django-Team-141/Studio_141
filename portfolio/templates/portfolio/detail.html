@@ -4,7 +4,7 @@
 {% block title %}{{ p.title }} · 141{% endblock %}
 {% block meta_desc %}{{ desc }}{% endblock %}
 {% block og_title %}{{ p.title }} · 141{% endblock %}
-{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% if p.image %}{{ p.image.url }}{% elif images %}{{ images.0.image.url }}{% else %}{% static 'img/og-image.png' %}{% endif %}{% endblock %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% if p.image %}{{ p.image.url }}{% elif p.video_poster %}{{ p.video_poster.url }}{% elif images %}{{ images.0.image.url }}{% else %}{% static 'img/og-image.png' %}{% endif %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
@@ -16,15 +16,28 @@
   <h1>{{ p.title }}</h1>
   <p class="lead">{{ desc }}</p>
 
+  {% if tags %}
+  <h2 class="mini">{{ t.d_tech }}</h2>
   <div class="tags">
     {% for tag in tags %}<em>{{ tag }}</em>{% endfor %}
   </div>
+  {% endif %}
+
+  {% if p.video and p.video_poster %}
+  <a class="vthumb" href="{% url 'portfolio:video' p.slug %}" aria-label="{{ t.d_video }}">
+    <img src="{{ p.video_poster.url }}" alt="{{ p.title }}" loading="lazy">
+    <span class="play"><span class="pbtn"></span></span>
+  </a>
+  {% endif %}
+
   <div class="links">
-    {% if p.demo_url %}<a class="btn" href="{{ p.demo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_demo }}</a>{% endif %}
+    {% if p.video %}<a class="btn" href="{% url 'portfolio:video' p.slug %}">{{ t.d_video }}</a>{% endif %}
+    {% if p.demo_url %}<a class="btn c" href="{{ p.demo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_demo }}</a>{% endif %}
     {% if p.repo_url %}<a class="btn c" href="{{ p.repo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_repo }}</a>{% endif %}
   </div>
 
   {% if details %}
+  <h2 class="mini">{{ t.d_about }}</h2>
   <div class="details">{{ details|linebreaks }}</div>
   {% endif %}
 

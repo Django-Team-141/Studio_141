@@ -9,8 +9,11 @@
 		file_server
 	}
 
+	# عکس‌ها و ویدیوها اسم تصادفی دارند و هیچ‌وقت دوباره استفاده نمی‌شوند، پس ۳۰ روز کش می‌شوند.
+	# Caddy جلو و عقب بردن ویدیو (Range) را خودش پشتیبانی می‌کند.
 	handle_path /media/* {
 		root * /srv/media
+		header Cache-Control "public, max-age=2592000"
 		file_server
 	}
 

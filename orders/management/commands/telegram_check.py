@@ -1,11 +1,11 @@
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
-from orders.notify import api
+from orders.notify import api, chat_ids, error_label
 
 
 class Command(BaseCommand):
-    help = "Finds your Telegram chat id, and with --send sends a test message to the configured chat."
+    help = "Lists who wrote to your bot (with their chat numbers), and with --send sends a test message to the configured chats."
 
     def add_arguments(self, parser):
         parser.add_argument("--send", action="store_true")
@@ -17,26 +17,42 @@ class Command(BaseCommand):
         try:
             updates = api("getUpdates")
         except Exception as exc:
-            raise CommandError(f"Could not reach Telegram ({type(exc).__name__}). Is a VPN on?")
+            raise CommandError(f"Could not reach Telegram ({error_label(exc)}). Is a VPN on?")
 
         seen = {}
-        for u in updates.get("result", []):
-            chat = (u.get("message") or u.get("channel_post") or {}).get("chat")
-            if chat:
-                seen[chat["id"]] = chat.get("type", "?")
+        for update in updates.get("result", []):
+            chat = (update.get("message") or update.get("channel_post") or {}).get("chat")
+            if not chat:
+                continue
+            name = " ".join(x for x in (chat.get("first_name"), chat.get("last_name")) if x) or chat.get("title", "")
+            username = chat.get("username")
+            seen[chat["id"]] = (chat.get("type", "?"), name, username)
 
         if seen:
-            self.stdout.write("Chats that wrote to your bot (put the right one in TELEGRAM_CHAT_ID):")
-            for cid, kind in seen.items():
-                self.stdout.write(f"  {cid}  ({kind})")
+            self.stdout.write("People and chats that wrote to your bot:")
+            for cid, (kind, name, username) in seen.items():
+                extra = f"  @{username}" if username else ""
+                self.stdout.write(f"  {cid}  ({kind})  {name}{extra}")
+            self.stdout.write(
+                "\nPut each team member's number in TELEGRAM_CHAT_ID, TELEGRAM_CHAT_ID_2, _3 or _4. "
+                "Only add people you know are on the team."
+            )
         else:
-            self.stdout.write("No messages yet. Open your bot in Telegram, press Start, send 'hi', then run this again.")
+            self.stdout.write(
+                "No messages yet. Ask each team member to open the bot in Telegram, "
+                "press Start and send 'hi', then run this again (with a VPN)."
+            )
 
         if opts["send"]:
-            if not settings.TELEGRAM_CHAT_ID:
-                raise CommandError("TELEGRAM_CHAT_ID is empty, so there is nowhere to send.")
-            try:
-                api("sendMessage", {"chat_id": settings.TELEGRAM_CHAT_ID, "text": "تست: ربات سایت ۱۴۱ وصل است ✅"})
-            except Exception as exc:
-                raise CommandError(f"Sending failed ({type(exc).__name__}). Check the chat id and that you pressed Start.")
-            self.stdout.write("Test message sent.")
+            ids = chat_ids()
+            if not ids:
+                raise CommandError("No chat number is set, so there is nowhere to send.")
+            for cid in ids:
+                try:
+                    api("sendMessage", {"chat_id": cid, "text": "تست: ربات سایت ۱۴۱ وصل است ✅"})
+                    self.stdout.write(f"Test message sent to {cid}.")
+                except Exception as exc:
+                    self.stdout.write(
+                        f"Sending to {cid} failed ({error_label(exc)}). "
+                        "This person probably has not pressed Start on the bot yet."
+                    )

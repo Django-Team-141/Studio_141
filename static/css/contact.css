@@ -12,15 +12,42 @@
   backdrop-filter: blur(6px);
   transition: .25s;
 }
+/* موقع رفتن موس، آیکون همان رنگ خودش را نگه می‌دارد؛ فقط پس‌زمینه کمی رنگ می‌گیرد و درخشش بیشتر می‌شود */
 .cbtn:hover {
-  background: var(--a); color: #03050f;
-  box-shadow: 0 0 26px var(--a); transform: translateY(-2px);
+  background: color-mix(in srgb, var(--a) 20%, #050b14);
+  color: var(--a);
+  box-shadow: 0 0 26px color-mix(in srgb, var(--a) 75%, transparent);
+  transform: translateY(-2px);
 }
 .cbtn svg {
   width: 22px; height: 22px; fill: none; stroke: currentColor;
   stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  transition: filter .25s;
 }
+.cbtn:hover svg { filter: drop-shadow(0 0 5px var(--a)); }
 
+/* رنگ هر راه تماس؛ کارت‌های بخش «تماس با ما» هم از همین‌ها استفاده می‌کنند */
 .cbtn-telegram  { --a: #00d4ff; }
+.cbtn-email     { --a: #a259ff; }
 .cbtn-whatsapp  { --a: #00e676; }
 .cbtn-instagram { --a: #ff4fa3; }
+
+/* هنوز فعال نشده: خط‌چین و کمی کم‌رنگ‌تر */
+.cbtn.is-soon { border-style: dashed; opacity: .78; }
+
+/* پیام کوتاهی که با کلیک روی گزینه‌های «به‌زودی» می‌آید */
+.toast {
+  position: fixed; z-index: 11; inset-inline: 0; margin-inline: auto;
+  width: max-content; max-width: min(92vw, 420px);
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  padding: 12px 20px; border-radius: 14px; text-align: center; font-size: 14.5px;
+  color: var(--tx); background: #050b14f2; border: 1px solid var(--cy);
+  box-shadow: 0 0 26px #00d4ff44; backdrop-filter: blur(8px);
+  opacity: 0; transform: translateY(12px); pointer-events: none;
+  transition: opacity .3s, transform .3s;
+}
+.toast.show { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .toast { transition: none; }
+}

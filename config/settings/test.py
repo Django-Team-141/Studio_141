@@ -16,8 +16,14 @@ PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 
 # مقدارهای .env شما نباید روی نتیجه‌ی تست اثر بگذارد
 CONTACT_TELEGRAM = ""
+CONTACT_EMAIL = ""
 CONTACT_WHATSAPP = ""
 CONTACT_INSTAGRAM = ""
 TELEGRAM_BOT_TOKEN = ""
 TELEGRAM_CHAT_ID = ""
+TELEGRAM_CHAT_ID_2 = ""
+TELEGRAM_CHAT_ID_3 = ""
+TELEGRAM_CHAT_ID_4 = ""
 TELEGRAM_FULL_DETAILS = False
+EMAIL_HOST = ""
+ORDER_NOTIFY_EMAIL_TO = []

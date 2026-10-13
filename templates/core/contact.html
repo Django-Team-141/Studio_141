@@ -1,0 +1,30 @@
+<div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
+
+<section id="contact">
+  <h2 class="reveal"><i></i>{{ t.ct_title }}</h2>
+  <p class="lead reveal">{{ t.ct_sub }}</p>
+
+  <div class="ccards">
+    {% for c in contact %}
+    {% if c.live %}
+    <a class="card ccard reveal cbtn-{{ c.key }}" href="{{ c.url }}"{% if c.key != "email" %} target="_blank" rel="noopener noreferrer"{% endif %}>
+      <span class="cic">{% include "core/_icon.html" with key=c.key %}</span>
+      <span class="cbody">
+        <b>{{ c.label }}</b>
+        <span class="cval">{{ c.display }}</span>
+        <small>{{ c.hint }}</small>
+      </span>
+    </a>
+    {% else %}
+    <a class="card ccard reveal is-soon cbtn-{{ c.key }}" href="#contact" data-soon="{{ c.msg }}">
+      <span class="cic">{% include "core/_icon.html" with key=c.key %}</span>
+      <span class="cbody">
+        <b>{{ c.label }}</b>
+        <span class="cval">{{ t.soon_badge }}</span>
+        <small>{{ c.hint }}</small>
+      </span>
+    </a>
+    {% endif %}
+    {% endfor %}
+  </div>
+</section>

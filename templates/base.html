@@ -51,6 +51,7 @@
       <a class="l" href="{% url 'home' %}#plans">{{ t.nav_plans }}</a>
       <a class="l" href="{% url 'home' %}#process">{{ t.nav_process }}</a>
       <a class="l" href="{% url 'home' %}#about">{{ t.nav_about }}</a>
+      <a class="l" href="{% url 'home' %}#contact">{{ t.nav_contact }}</a>
       <a class="l" href="{% url 'home' %}#order">{{ t.nav_order }}</a>
     </div>
     <a id="lang" href="{{ other_lang_url }}" hreflang="{{ other_lang }}" lang="{{ other_lang }}">{{ t.lang_btn }}</a>
@@ -69,9 +70,11 @@
   </footer>
 
   {% include "core/_contact.html" %}
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="{% static 'js/nav.js' %}" defer></script>
   <script src="{% static 'js/reveal.js' %}" defer></script>
+  <script src="{% static 'js/contact.js' %}" defer></script>
   {% block extra_js %}{% endblock %}
 </body>
 </html>

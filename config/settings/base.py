@@ -114,19 +114,36 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # --- ورود دومرحله‌ای (2FA) ---
 OTP_TOTP_ISSUER = "141 Studio"
 
-# --- دکمه‌های تماس ثابت ---
+# --- راه‌های تماس ---
 # اگر در ادمین (Site settings) مقدار داده شود، آن مقدار برنده است.
 # این‌ها فقط جایگزین‌اند، وقتی در ادمین خالی باشد.
 CONTACT_TELEGRAM = env("CONTACT_TELEGRAM", default="")
+CONTACT_EMAIL = env("CONTACT_EMAIL", default="")
 CONTACT_WHATSAPP = env("CONTACT_WHATSAPP", default="")
 CONTACT_INSTAGRAM = env("CONTACT_INSTAGRAM", default="")
 
-# --- اعلان تلگرام برای درخواست جدید ---
+# --- اعلان درخواست جدید: تلگرام ---
 TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN", default="")
+# شماره‌ی چت خصوصی اعضای تیم: چهار جا، هرکدام یک نفر (یا چند شماره با ویرگول)
 TELEGRAM_CHAT_ID = env("TELEGRAM_CHAT_ID", default="")
-# False یعنی پیام تلگرام فقط کد، پلن و شماره‌ی ماسک‌شده دارد (نام و شماره‌ی کامل به تلگرام نمی‌رود)
-TELEGRAM_FULL_DETAILS = env.bool("TELEGRAM_FULL_DETAILS", default=False)
+TELEGRAM_CHAT_ID_2 = env("TELEGRAM_CHAT_ID_2", default="")
+TELEGRAM_CHAT_ID_3 = env("TELEGRAM_CHAT_ID_3", default="")
+TELEGRAM_CHAT_ID_4 = env("TELEGRAM_CHAT_ID_4", default="")
+# True یعنی همه‌ی اطلاعات فرم برای تیم فرستاده می‌شود. False یعنی فقط کد، پلن و شماره‌ی ماسک‌شده.
+TELEGRAM_FULL_DETAILS = env.bool("TELEGRAM_FULL_DETAILS", default=True)
 TELEGRAM_API_BASE = env("TELEGRAM_API_BASE", default="https://api.telegram.org")
+
+# --- اعلان درخواست جدید: ایمیل (اختیاری؛ تا EMAIL_HOST و ORDER_NOTIFY_EMAIL_TO را نگذارید خاموش است) ---
+EMAIL_HOST = env("EMAIL_HOST", default="")
+EMAIL_PORT = env.int("EMAIL_PORT", default=587)
+# بعضی سرویس‌ها پورت ۴۶۵ و SSL می‌خواهند. SSL و TLS با هم نمی‌شوند.
+EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL", default=False)
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True) and not EMAIL_USE_SSL
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
+EMAIL_TIMEOUT = 10
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER)
+ORDER_NOTIFY_EMAIL_TO = env.list("ORDER_NOTIFY_EMAIL_TO", default=[])
 
 # --- امنیت (مشترک؛ بخش‌های فقط‌سرور در prod.py است) ---
 SESSION_COOKIE_HTTPONLY = True

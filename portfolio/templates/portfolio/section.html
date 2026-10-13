@@ -22,6 +22,7 @@
       </div>
       <div class="links">
         <a class="go" href="{% url 'portfolio:detail' it.p.slug %}">{{ t.w_more }}</a>
+        {% if it.p.video %}<a class="go" href="{% url 'portfolio:video' it.p.slug %}">{{ t.w_video }}</a>{% endif %}
         {% if it.p.demo_url %}<a class="go" href="{{ it.p.demo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_demo }}</a>{% endif %}
         {% if it.p.repo_url %}<a class="go" href="{{ it.p.repo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_repo }}</a>{% endif %}
       </div>

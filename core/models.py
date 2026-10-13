@@ -26,15 +26,26 @@ class SiteSettings(models.Model):
         max_length=65, blank=True, validators=[username_ok],
         help_text="Username only. Empty = use CONTACT_TELEGRAM from the server settings.",
     )
+    email = models.EmailField(
+        blank=True,
+        help_text="The team email. Shown in the contact section and the footer. Empty = use CONTACT_EMAIL from the server settings.",
+    )
     whatsapp = models.CharField(
         max_length=16, blank=True, validators=[number_ok],
         help_text="Number with country code. Empty = use CONTACT_WHATSAPP from the server settings.",
+    )
+    whatsapp_live = models.BooleanField(
+        "WhatsApp is live", default=False,
+        help_text="Tick this when the WhatsApp number works. Until then visitors see 'coming soon'.",
     )
     instagram = models.CharField(
         max_length=65, blank=True, validators=[username_ok],
         help_text="Username only. Empty = use CONTACT_INSTAGRAM from the server settings.",
     )
-    email = models.EmailField(blank=True, help_text="Shown in the footer as a mailto link.")
+    instagram_live = models.BooleanField(
+        "Instagram is live", default=False,
+        help_text="Tick this when the Instagram page is ready. Until then visitors see 'coming soon'.",
+    )
 
     # --- متن هدر ---
     hero_a_fa = models.CharField("Hero first line (Persian)", max_length=80, blank=True, help_text=EMPTY_HINT)

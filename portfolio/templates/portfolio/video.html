@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ t.d_video_title }} · {{ p.title }}{% endblock %}
+{% block meta_desc %}{{ desc }}{% endblock %}
+{% block og_title %}{{ t.d_video_title }} · {{ p.title }}{% endblock %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% if p.video_poster %}{{ p.video_poster.url }}{% elif p.image %}{{ p.image.url }}{% else %}{% static 'img/og-image.png' %}{% endif %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="proj accent-{{ p.accent }}">
+  <a class="back" href="{% url 'portfolio:detail' p.slug %}">{{ t.d_back_project }}</a>
+  <h1>{{ p.title }}</h1>
+  <p class="lead">{{ desc }}</p>
+
+  <div class="player">
+    <video controls preload="metadata" playsinline{% if p.video_poster %} poster="{{ p.video_poster.url }}"{% endif %}>
+      <source src="{{ p.video.url }}" type="{{ p.video_mime }}">
+      {{ t.d_noplay }} <a href="{{ p.video.url }}" download>{{ t.d_download }}</a>
+    </video>
+  </div>
+
+  <div class="links vlinks">
+    {% if p.demo_url %}<a class="btn" href="{{ p.demo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_demo }}</a>{% endif %}
+    {% if p.repo_url %}<a class="btn c" href="{{ p.repo_url }}" target="_blank" rel="noopener noreferrer">{{ t.w_repo }}</a>{% endif %}
+  </div>
+</section>
+{% endblock %}
