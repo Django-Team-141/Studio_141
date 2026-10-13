@@ -10,8 +10,8 @@ STARTERS = [
         "slug": "django-gaming-shop",
         "accent": "purple",
         "tags": "Django 5, DRF, React 19, Docker",
-        "desc_fa": "فروشگاه لوازم گیمینگ با پرداخت امن، کوپن، قفل موجودی و پنل فروشنده.",
-        "desc_en": "Gaming-gear store with secure checkout, coupons, stock locking and a seller panel.",
+        "desc_fa": "فروشگاه لوازم گیمینگ با پرداخت امن، کوپن تخفیف، قفل موجودی هنگام خرید و پنل مخصوص فروشنده.",
+        "desc_en": "A gaming-gear store with secure checkout, discount coupons, stock locking during checkout and a seller panel.",
         "repo_url": "https://github.com/Django-Team-141/Django-gaming-shop",
     },
     {
@@ -19,8 +19,8 @@ STARTERS = [
         "slug": "lavagame-store",
         "accent": "orange",
         "tags": "Django, DRF, React/Vite, Chat",
-        "desc_fa": "فروشگاه گیمینگ با سبد خرید، سفارش‌ها، پرداخت و چت پشتیبانی.",
-        "desc_en": "Gaming store with cart, orders, payments and customer chat.",
+        "desc_fa": "فروشگاه گیمینگ با سبد خرید، سفارش‌ها، پرداخت و چت پشتیبانی برای مشتری‌ها.",
+        "desc_en": "A gaming store with a cart, orders, payments and a support chat for customers.",
         "repo_url": "https://github.com/Django-Team-141/Lavagame_store",
     },
     {
@@ -28,8 +28,8 @@ STARTERS = [
         "slug": "carzone",
         "accent": "cyan",
         "tags": "Django, Frontend, Catalog",
-        "desc_fa": "فروشگاه لوازم جانبی خودرو با کاتالوگ و صفحه‌ی جزئیات محصول.",
-        "desc_en": "Car accessories shop with a catalog and product pages.",
+        "desc_fa": "فروشگاه لوازم جانبی خودرو، با کاتالوگ محصول و صفحه‌ی جزئیات برای هر کالا.",
+        "desc_en": "A car accessories shop with a product catalog and a details page for each item.",
         "repo_url": "https://github.com/Django-Team-141/carzone_OnlineShop",
     },
     {
@@ -37,8 +37,8 @@ STARTERS = [
         "slug": "beauty-store",
         "accent": "green",
         "tags": "Django 6, REST API, JWT",
-        "desc_fa": "بک‌اند یک فروشگاه اینترنتی زیبایی با Django. محصول‌ها، سبد خرید و کاربرها را مدیریت می‌کند و ورود از راه JWT است.",
-        "desc_en": "The backend of a beauty online shop, built with Django. It handles products, carts and users, with JWT login.",
+        "desc_fa": "بک‌اند یک فروشگاه اینترنتی زیبایی با Django؛ محصول‌ها، سبد خرید و کاربرها را مدیریت می‌کند و ورود با JWT دارد.",
+        "desc_en": "The backend of a beauty online shop, built with Django. It manages products, carts and users, with JWT login.",
         "repo_url": "https://github.com/Django-Team-141/beauty-store",
     },
 ]

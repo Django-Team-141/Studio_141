@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% load portfolio_tags content_tags %}
+
+{% block title %}{{ t.ap_title }}{% endblock %}
+{% block meta_desc %}{{ t.ap_meta }}{% endblock %}
+{% block og_title %}{{ t.ap_title }}{% endblock %}
+{% block og_desc %}{{ t.ap_meta }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="ap-hero">
+  <span class="kicker reveal">{{ t.ap_kicker }}</span>
+  <h1 class="reveal">{{ t.ap_h1_a }} <span>{{ t.ap_h1_b }}</span> {{ t.ap_h1_c }}</h1>
+  <p class="lead reveal">{{ t.ap_lead }}</p>
+</section>
+
+<div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
+
+<section id="why">
+  <h2 class="reveal"><span class="emo" aria-hidden="true">🧵</span>{{ t.ap_why_title }}</h2>
+  <div class="doc reveal">
+    <p>{{ t.ap_why_p1 }}</p>
+    <p>{{ t.ap_why_p2 }}</p>
+  </div>
+</section>
+
+<div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
+
+<section id="gets">
+  <h2 class="reveal"><span class="emo" aria-hidden="true">🎁</span>{{ t.ap_get_title }}</h2>
+  <div class="gets">
+    {% for g in t.ap_gets %}
+    <article class="card get reveal">
+      <h3><span class="emo" aria-hidden="true">{{ g.e }}</span>{{ g.t }}</h3>
+      <p>{{ g.d }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+{% portfolio_section %}
+{% include "core/_process.html" %}
+{% team_section %}
+
+<div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
+
+<section class="cta-wrap">
+  <div class="cta reveal">
+    <h2>{{ t.ap_cta_title }}</h2>
+    <p class="lead">{{ t.ap_cta_text }}</p>
+    <a class="btn" href="{% url 'home' %}#order">{{ t.ap_cta_order }}</a>
+    <a class="btn c" href="{% url 'home' %}#contact">{{ t.ap_cta_contact }}</a>
+  </div>
+</section>
+{% endblock %}

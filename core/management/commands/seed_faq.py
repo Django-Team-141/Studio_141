@@ -3,42 +3,43 @@ from django.core.management.base import BaseCommand
 from core.models import FaqItem
 
 # متن‌های شروع‌اند. قبل از انتشار بخوانید و با کار واقعی تیم یکی کنید (از ادمین، بخش Faq items).
+# ترتیب این پنج تا با OLD_FAQ در refresh_content یکی است. اگر ترتیب را عوض کنید، آن فایل را هم عوض کنید.
 DATA = [
     (
-        "بعد از ثبت درخواست چه اتفاقی می‌افتد؟",
+        "بعد از ثبت درخواست چه می‌شود؟",
         "What happens after I send a request?",
-        "با شماره‌ای که نوشته‌اید با شما تماس می‌گیریم. درباره‌ی پروژه حرف می‌زنیم و بعد یک پلن و قیمت مشخص پیشنهاد می‌دهیم. تا وقتی شما تأیید نکنید، کاری شروع نمی‌شود.",
-        "We call the number you wrote. We talk about the project and then suggest a plan and a clear price. Nothing starts until you say yes.",
+        "با همان شماره‌ای که نوشته‌اید تماس می‌گیریم و درباره‌ی پروژه حرف می‌زنیم. بعد یک پلن و یک قیمت مشخص پیشنهاد می‌دهیم. تا وقتی شما بله نگویید، کاری شروع نمی‌شود.",
+        "We call the number you wrote and talk through the project. Then we suggest a plan and a clear price. Nothing starts until you say yes.",
     ),
     (
         "قیمت نهایی چطور مشخص می‌شود؟",
         "How is the final price decided?",
-        "عدد روی هر پلن نقطه‌ی شروع است. بعد از گفتگو درباره‌ی نیازهای پروژه‌تان، قیمت دقیق را می‌گوییم.",
-        "The number on each plan is a starting point. After we talk about what your project needs, we tell you the exact price.",
+        "عدد روی هر پلن نقطه‌ی شروع است. وقتی بدانیم پروژه‌تان دقیقاً چه چیزهایی لازم دارد، قیمت نهایی را می‌گوییم و قبل از شروع کار روی آن توافق می‌کنیم.",
+        "The number on each plan is a starting point. Once we know what your project needs, we tell you the final price and agree on it before any work starts.",
     ),
     (
-        "نمونه‌کارهایتان را می‌توانم از نزدیک ببینم؟",
-        "Can I take a closer look at your work?",
-        "بله. روی هر نمونه‌کار بزنید تا جزئیاتش را ببینید. لینک دمو و سورس هرکدام که موجود باشد کنارش هست.",
-        "Yes. Open any project to see its details. The demo and source links are there when they exist.",
+        "از چه فناوری‌هایی استفاده می‌کنید؟",
+        "What technologies do you use?",
+        "بک‌اند همه‌ی پروژه‌هایمان با Django ساخته شده. وقتی پروژه رابط کاربری جدا لازم داشته، از React هم استفاده کرده‌ایم؛ مثل دو فروشگاه گیمینگ در بخش نمونه‌کارها.",
+        "The backend of all our projects is built with Django. When a project needed a separate front end, we've used React too, like the two gaming stores in our work section.",
     ),
     (
         "سایت من می‌تواند فارسی و انگلیسی باشد؟",
         "Can my site be in Persian and English?",
-        "بله. همین سایت دوزبانه است. جزئیات را در بخش پلن‌ها ببینید یا در فرم ثبت درخواست بنویسید.",
-        "Yes. This site is bilingual. See the plans for the details, or write it in the order form.",
+        "بله، می‌شود. همین سایت هم دوزبانه است. اگر برای سایت خودتان هم این را می‌خواهید، در فرم ثبت درخواست بنویسید.",
+        "Yes. This very site is bilingual. If you want that for yours too, just mention it in the order form.",
     ),
     (
         "اطلاعاتی که در فرم می‌نویسم کجا می‌رود؟",
         "Where does the information I write in the form go?",
-        "فقط تیم ما آن‌ها را می‌بیند و برای تماس با شما استفاده می‌کنیم. ۱۲ ماه نگه می‌داریم و بعد پاک می‌کنیم. جزئیاتش در صفحه‌ی حریم خصوصی است.",
-        "Only our team sees it, and we use it to contact you. We keep it for 12 months and then delete it. The details are on the privacy page.",
+        "فقط اعضای تیم ما آن را می‌بینند و فقط برای تماس با شما استفاده می‌کنیم. ۱۲ ماه نگهش می‌داریم و بعد پاک می‌کنیم. جزئیاتش در صفحه‌ی حریم خصوصی است.",
+        "Only our team sees it, and we only use it to get in touch with you. We keep it for 12 months and then delete it. The details are on the privacy page.",
     ),
 ]
 
 
 class Command(BaseCommand):
-    help = "Adds the starter FAQ items (skips the ones that already exist)."
+    help = "Adds the starter FAQ items to an empty database (skips the ones that already exist)."
 
     def handle(self, *args, **options):
         for i, (q_fa, q_en, a_fa, a_en) in enumerate(DATA):

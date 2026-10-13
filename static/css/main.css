@@ -100,6 +100,19 @@ h2 i {
 }
 .lead { color: var(--mu); max-width: 640px; margin: 0 0 38px; }
 
+/* حباب ایموجی کنار عنوان‌ها؛ هم‌خانواده‌ی گره‌های نئونی لوگو */
+.emo {
+  display: inline-grid; place-items: center; width: 1.5em; height: 1.5em;
+  margin-inline-end: 12px; vertical-align: middle; border-radius: 50%;
+  font: 400 .72em "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+  line-height: 1; background: #06121e; border: 1.5px solid var(--cy);
+  box-shadow: 0 0 14px #00d4ff55, inset 0 0 10px #00d4ff22;
+}
+h3 .emo {
+  width: 1.7em; height: 1.7em; margin-inline-end: 10px; font-size: .85em;
+  border-color: var(--gr); box-shadow: 0 0 12px #00e67655, inset 0 0 8px #00e67622;
+}
+
 .node { display: flex; align-items: center; max-width: 1180px; padding: 0 5vw; margin: 60px auto 0; }
 .node b {
   width: 11px; height: 11px; border-radius: 50%; background: var(--gr);
@@ -117,6 +130,15 @@ h2 i {
 .card p { margin: 0; color: var(--mu); font-size: 15px; }
 
 .doc p { color: var(--mu); max-width: 680px; margin: 0 0 18px; }
+
+/* ---------- صفحه‌ی ۴۰۴ ---------- */
+.nf { padding-top: 140px; text-align: center; min-height: 70vh; }
+.nf .big {
+  font: 800 clamp(80px, 18vw, 160px) / 1 'JetBrains Mono', monospace;
+  color: var(--cy); text-shadow: 0 0 30px #00d4ff88; margin-bottom: 10px;
+}
+.nf h1 { font-size: clamp(24px, 4vw, 38px); }
+.nf .lead { margin: 12px auto 28px; }
 
 footer { text-align: center; color: var(--mu); padding: 50px 5vw 60px; border-top: 1px solid var(--ln); font-size: 13px; }
 footer .t { font: 700 13px 'JetBrains Mono', monospace; letter-spacing: .35em; color: var(--cy); margin-bottom: 6px; }

@@ -12,18 +12,18 @@ DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "012345678901
 
 MSG = {
     "fa": {
-        "required": "این بخش را پر کنید.",
-        "phone": "شماره درست به نظر نمی‌رسد. مثلاً 09121234567 یا +989121234567",
-        "email": "ایمیل درست نیست.",
-        "max": "متن از حد مجاز بلندتر است.",
-        "plan_bad": "این پلن را پیدا نکردیم. یکی از گزینه‌ها را انتخاب کنید.",
-        "plan_none": "هنوز نمی‌دانم",
+        "required": "این قسمت را پر کنید.",
+        "phone": "این شماره درست به نظر نمی‌رسد. چیزی شبیه 09121234567 یا +989121234567 بنویسید.",
+        "email": "ایمیل را درست وارد نکرده‌اید.",
+        "max": "متنتان از حد مجاز بلندتر است.",
+        "plan_bad": "این پلن را پیدا نکردیم. لطفاً یکی از گزینه‌های لیست را انتخاب کنید.",
+        "plan_none": "هنوز نمی‌دانم 🤷",
     },
     "en": {
         "required": "Please fill this in.",
-        "phone": "That phone number doesn't look right. For example +989121234567",
-        "email": "That email doesn't look right.",
-        "max": "That's longer than we can take.",
+        "phone": "That phone number doesn't look right. Try something like +989121234567.",
+        "email": "That email address doesn't look right.",
+        "max": "That's a bit longer than we can take.",
         "plan_bad": "We couldn't find that plan. Please pick one from the list.",
         "plan_none": "Not sure yet",
     },

@@ -64,6 +64,7 @@
     <div class="t">ONE FOR ONE</div>
     <div>{{ t.footer }}</div>
     <div class="fl">
+      <a href="{% url 'about' %}">{{ t.nav_about }}</a> ·
       <a href="{% url 'privacy' %}">{{ t.privacy }}</a>
       {% if site_email %} · <a href="mailto:{{ site_email }}">{{ site_email }}</a>{% endif %}
     </div>

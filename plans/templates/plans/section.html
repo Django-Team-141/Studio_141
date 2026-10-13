@@ -1,7 +1,7 @@
 <div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
 
 <section id="plans">
-  <h2 class="reveal"><i></i>{{ t.pl_title }}</h2>
+  <h2 class="reveal"><span class="emo" aria-hidden="true">💎</span>{{ t.pl_title }}</h2>
   <p class="lead reveal">{{ t.pl_sub }}</p>
 
   {% if has_plans %}
@@ -19,7 +19,7 @@
       <div class="grid">
         {% for it in g.cards %}
         <article class="card plan reveal{% if it.p.is_featured %} hot{% endif %}">
-          <h3>{{ it.title }}</h3>
+          <h3>{% if it.emoji %}<span class="emo" aria-hidden="true">{{ it.emoji }}</span>{% endif %}{{ it.title }}</h3>
           <div class="price">{{ it.price }}</div>
           <ul>
             {% for f in it.features %}<li>{{ f }}</li>{% endfor %}

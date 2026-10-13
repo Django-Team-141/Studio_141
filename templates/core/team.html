@@ -1,0 +1,8 @@
+{% if members %}
+<div class="node"><b></b><s></s><b class="alt"></b><s></s><b></b></div>
+
+<section id="team">
+  <h2 class="reveal"><span class="emo" aria-hidden="true">👥</span>{{ t.ap_team_title }}</h2>
+  {% include "core/_team_cards.html" %}
+</section>
+{% endif %}

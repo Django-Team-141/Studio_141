@@ -29,6 +29,32 @@
 .avatar span { font: 800 32px 'JetBrains Mono', monospace; color: var(--cy); }
 .team-card h3 a:hover { color: var(--gr); }
 
+/* ---------- صفحه‌ی «درباره‌ی ما» ---------- */
+.ap-hero { padding-top: 150px; padding-bottom: 20px; text-align: center; }
+.ap-hero h1 { font-size: clamp(30px, 5.4vw, 58px); margin: 0 auto; max-width: 900px; }
+.ap-hero .lead { margin: 18px auto 0; font-size: 1.08em; }
+
+.kicker {
+  display: inline-block; margin-bottom: 20px; padding: 3px 18px; border-radius: 99px;
+  border: 1px solid var(--gr); color: var(--gr); box-shadow: 0 0 16px #00e67633;
+  font: 700 12px 'JetBrains Mono', Vazirmatn, monospace;
+}
+/* فاصله‌ی بین حرف‌ها فقط برای لاتین است؛ در فارسی حروف را از هم جدا می‌کند */
+body.lang-en .kicker { letter-spacing: .28em; text-transform: uppercase; }
+
+.gets { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.get { transition: .3s; }
+.get:hover { border-color: var(--cy); box-shadow: 0 0 28px #00d4ff22; }
+
+.cta-wrap { padding-top: 70px; }
+.cta {
+  text-align: center; padding: 48px 5vw; border-radius: 28px; border: 1px solid var(--cy);
+  background: radial-gradient(ellipse at 50% 0, #0a2a3a, #050b14 70%);
+  box-shadow: 0 0 60px #00d4ff22, inset 0 0 40px #00d4ff10;
+}
+.cta h2 { margin-bottom: 10px; }
+.cta .lead { margin: 0 auto 26px; }
+
 /* ---------- سؤال‌های رایج ---------- */
 .faq { max-width: 820px; display: grid; gap: 10px; }
 .faq-item {

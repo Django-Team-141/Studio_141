@@ -4,6 +4,9 @@ from ..models import Plan
 
 register = template.Library()
 
+# هر سطح پلن یک ایموجی دارد
+LEVEL_EMOJI = {1: "🌱", 2: "⚡", 3: "👑"}
+
 
 def _rows(cards):
     """ماتریس مقایسه: هر ویژگی یک ردیف، هر پلن یک ستون."""
@@ -32,6 +35,7 @@ def plans_section(context):
     for p in plans:
         groups[p.kind]["cards"].append({
             "p": p,
+            "emoji": LEVEL_EMOJI.get(p.level, ""),
             "title": p.title_fa if fa else p.title_en,
             "price": p.price_fa if fa else p.price_en,
             "features": [f.text_fa if fa else f.text_en for f in p.features.all()],
